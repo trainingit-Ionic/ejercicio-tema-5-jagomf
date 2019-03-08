@@ -1,3 +1,23 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu #menu *ngIf="showMenu">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>
+          Menú
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-menu-toggle auto-hide="false" >
+        <ion-item [routerLink]="['/']">Home</ion-item>
+        <ion-item [routerLink]="['/clients']">Clients</ion-item>
+        <ion-item [routerLink]="['/invoices']">Invoices</ion-item>
+        <ion-item [routerLink]="['/orders']">Orders</ion-item>
+        <ion-item [routerLink]="['/providers']">Providers</ion-item>
+        <ion-item><ion-button (click)="tryLogout()">Logout</ion-button></ion-item>
+      </ion-menu-toggle>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet main></ion-router-outlet>
 </ion-app>

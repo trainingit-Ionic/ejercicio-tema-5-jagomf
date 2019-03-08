@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LoginModalComponent } from '../../../components/login-modal/login-modal.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +10,14 @@ import { LoginModalComponent } from '../../../components/login-modal/login-modal
 })
 export class HomePage {
 
-  isLogged = false;
+  get isLogged() {
+    return this.authService.isLogged();
+  }
 
-  constructor(public modalController: ModalController) {}
+  constructor(
+    private authService: AuthService,
+    public modalController: ModalController
+  ) {}
 
   async launchLogin() {
     const modal = await this.modalController.create({
@@ -19,8 +25,5 @@ export class HomePage {
       componentProps: { value: 123 }
     });
     await modal.present();
-
-    const { data: { success } } = await modal.onDidDismiss();
-    this.isLogged = !!success;
   }
 }

@@ -27,7 +27,7 @@ export class LoginModalComponent {
       const password = this.passField.value;
       this.authService.login({ username, password }).subscribe(async success => {
         if (success) {
-          this.modalController.dismiss({ success });
+          this.modalController.dismiss();
         } else {
           const toast = await this.toastController.create({
             message: 'Could not login!',
