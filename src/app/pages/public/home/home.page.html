@@ -8,5 +8,6 @@
 
 <ion-content padding>
   <p>Best app in world.</p>
-  <ion-button (click)="launchLogin()">Login</ion-button>
+  <ion-button (click)="launchLogin()" *ngIf="!isLogged; else logged">Login</ion-button>
+  <ng-template #logged>You are logged in. Check app menu.</ng-template>
 </ion-content>

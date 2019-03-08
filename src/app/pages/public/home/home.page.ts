@@ -9,6 +9,8 @@ import { LoginModalComponent } from '../../../components/login-modal/login-modal
 })
 export class HomePage {
 
+  isLogged = false;
+
   constructor(public modalController: ModalController) {}
 
   async launchLogin() {
@@ -16,6 +18,9 @@ export class HomePage {
       component: LoginModalComponent,
       componentProps: { value: 123 }
     });
-    return await modal.present();
+    await modal.present();
+
+    const { data: { success } } = await modal.onDidDismiss();
+    this.isLogged = !!success;
   }
 }
