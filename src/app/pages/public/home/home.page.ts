@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { LoginModalComponent } from '../../../components/login-modal/login-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +9,13 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
+  constructor(public modalController: ModalController) {}
+
+  async launchLogin() {
+    const modal = await this.modalController.create({
+      component: LoginModalComponent,
+      componentProps: { value: 123 }
+    });
+    return await modal.present();
+  }
 }

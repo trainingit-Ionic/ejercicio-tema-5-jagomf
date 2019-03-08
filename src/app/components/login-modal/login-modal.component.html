@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <ion-item>
+    <ion-input #user placeholder="username"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input #pass type="password" placeholder="password"></ion-input>
+  </ion-item>
+  <p>
+    <ion-button fill="outline" (click)="dismiss()">Cancel</ion-button>
+    <ion-button (click)="tryLogin()" [disabled]="!(userField.value && passField.value)">Login</ion-button>
+    <ion-spinner *ngIf="isLogging"></ion-spinner>
+  </p>
+</ion-content>
