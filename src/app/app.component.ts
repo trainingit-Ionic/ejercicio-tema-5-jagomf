@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 
 import { Platform, IonMenu } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChild('menu') menu: IonMenu;
 
   constructor(
@@ -23,8 +23,10 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  get showMenu() {
-    return this.authService.isLogged();
+  showMenu = false;
+
+  ngOnInit() {
+    this.authService.isLogged.subscribe(logged => this.showMenu = logged);
   }
 
   tryLogout() {

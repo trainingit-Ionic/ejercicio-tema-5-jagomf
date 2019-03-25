@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LoginModalComponent } from '../../../components/login-modal/login-modal.component';
 import { AuthService } from '../../../services/auth.service';
@@ -8,16 +8,18 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  get isLogged() {
-    return this.authService.isLogged();
-  }
+  isLogged = false;
 
   constructor(
     private authService: AuthService,
     public modalController: ModalController
   ) {}
+
+  ngOnInit() {
+    this.authService.isLogged.subscribe(logged => this.isLogged = logged);
+  }
 
   async launchLogin() {
     const modal = await this.modalController.create({

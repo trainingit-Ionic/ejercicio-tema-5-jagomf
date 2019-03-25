@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, from } from "rxjs";
+import { Injectable, OnInit } from '@angular/core';
+import { Observable, from, BehaviorSubject } from "rxjs";
 import { delay, tap, map } from "rxjs/operators";
 import { Storage } from '@ionic/storage';
 
@@ -40,10 +40,11 @@ const ResponseLoginERROR$: Observable<SimulatedResponse> = Observable.create(
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnInit {
 
   private usertoken: Usertoken;
   private lastLoginErrorMessage: string;
+  isLogged: BehaviorSubject<boolean>;
 
   constructor(private http: HttpClient, private storage: Storage) {
     this.usertoken = {
@@ -51,6 +52,13 @@ export class AuthService {
       token: ''
     };
     this.lastLoginErrorMessage = null;
+    this.isLogged = new BehaviorSubject(false);
+  }
+
+  ngOnInit() {
+    this.storage.ready().then(() => {
+      this.storage.get('token').then(token => this.isLogged.next(!!token));
+    });
   }
 
   /**
@@ -72,7 +80,8 @@ export class AuthService {
             this.storage.set('username', respuesta.usertoken.username);
             this.storage.set('token', respuesta.usertoken.token);
             return true;
-          })
+          }),
+        tap(() => this.isLogged.next(true))
       );
     } else {
       // Simulamos que hemos recibido la respuesta ResponseLoginERROR$.
@@ -95,11 +104,7 @@ export class AuthService {
     };
     this.storage.remove('username');
     this.storage.remove('token');
-  }
-
-  async isLogged() {
-    const token = await this.storage.get('token');
-    return !!token;
+    this.isLogged.next(false);
   }
 
   getLastLoginErrorMessage(): string {
