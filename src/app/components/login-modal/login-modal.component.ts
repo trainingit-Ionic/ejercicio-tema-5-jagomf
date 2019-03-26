@@ -5,7 +5,6 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login-modal',
   templateUrl: './login-modal.component.html',
-  providers: [AuthService],
   styleUrls: ['./login-modal.component.scss']
 })
 export class LoginModalComponent {
